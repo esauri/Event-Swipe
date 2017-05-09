@@ -45,7 +45,7 @@ class OverlayView: UIView {
      * param {CGRect} frame - view frame
      * param {String} events
      */
-    convenience init(frame: CGRect, event: String) {
+    convenience init(frame: CGRect, event: Event) {
         self.init(frame: frame)
         
         setEvent(event: event)
@@ -174,7 +174,7 @@ class OverlayView: UIView {
      * setEvent - sets the OverlayView's event
      * param {String} event
      */
-    func setEvent (event: String) {
-        self.eventName = event
+    func setEvent (event: Event) {
+        self.eventName = event.name
     }
 }

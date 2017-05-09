@@ -47,7 +47,7 @@ class EventsViewController: UIViewController {
         let cardView = CardView(frame: self.view.frame)
         
         // Pass in the events
-        cardView.events = eventResults
+        cardView.events = nearbyEvents
         
         // Load the card view
         cardView.loadView()
@@ -137,10 +137,10 @@ class EventsViewController: UIViewController {
                     let startTime = startTimeObject?["local"] as? String ?? "Start date unknown"
                     let endTime = endTimeObject?["local"] as? String ?? "End date unknown"
                     ///
-                    let event = Event(id: id, name: name, description: description, url: url, imageUrl: imageUrl, categoryId: categoryId, subCategoryId: subCategoryId, startTime: startTime, endTime: endTime)
+                    let event = Event(id: id, name: name, desc: description, url: url, imageUrl: imageUrl, categoryId: categoryId, subCategoryId: subCategoryId, startTime: startTime, endTime: endTime)
                     eventResults.append(name)
                     nearbyEvents.append(event)
-                    print(event.description)
+//                    print(event.getImageUrl())
                 }
             } else {
                 print("JSON Error")

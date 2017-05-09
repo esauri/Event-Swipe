@@ -45,7 +45,7 @@ class CardView: UIView, DraggableViewDelegate {
     var numLoadedCardsCap = 0
     
     // Hold our events
-    var events = [String]()
+    var events: [Event] = []
 
     // MARK: Intitializers
     
@@ -306,7 +306,7 @@ class CardView: UIView, DraggableViewDelegate {
         let currentCard = loadedCards[0]
         let event = events[0]
         
-        currentCard.loadView(event: event)
+        currentCard.loadCardImage(event: event)
     }
     
     /*
