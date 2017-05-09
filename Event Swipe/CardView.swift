@@ -15,6 +15,7 @@ class CardView: UIView, DraggableViewDelegate {
     // MARK: Variables
     
     // Card constants
+    let MAX_CARDS_LOADED = 3
     var maximumNumberOfCards = 0
     let CARD_HEIGHT = CGFloat(380)
     let CARD_WIDTH = CGFloat(300)
@@ -104,7 +105,7 @@ class CardView: UIView, DraggableViewDelegate {
     
     func loadView() {
         setupView()
-        setMaxiumumNumberOfCards(events.count)
+        setMaxiumumNumberOfCards(MAX_CARDS_LOADED)
         setLoadedCardsCap()
         createCards()
         displayCards()
@@ -242,11 +243,11 @@ class CardView: UIView, DraggableViewDelegate {
      * createCards - creates cards
      */
     func createCards () {
-        if numLoadedCardsCap > 0 {
+        if events.count > 0 {
             
             let cardFrame = CGRect(x: CARD_MARGIN_LEFT, y: CARD_MARGIN_TOP + BAR_HEIGHT_LARGE, width: CARD_WIDTH, height: CARD_HEIGHT)
             
-            for _ in 0..<numLoadedCardsCap {
+            for _ in 0..<events.count {
                 let newCard = DraggableView(frame: cardFrame)
                 newCard.delegate = self
                 allCards.append(newCard)
