@@ -19,6 +19,7 @@
 		33F691291EB8275400FF3890 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F691281EB8275400FF3890 /* CardView.swift */; };
 		33F6912E1EB8284F00FF3890 /* saveButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F6912D1EB8284F00FF3890 /* saveButton.png */; };
 		33F691301EB8285800FF3890 /* dismissButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F6912F1EB8285800FF3890 /* dismissButton.png */; };
+		33FCB6ED1EC15CB1002704A2 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCB6EC1EC15CB1002704A2 /* Event.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		33F691281EB8275400FF3890 /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		33F6912D1EB8284F00FF3890 /* saveButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saveButton.png; sourceTree = "<group>"; };
 		33F6912F1EB8285800FF3890 /* dismissButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dismissButton.png; sourceTree = "<group>"; };
+		33FCB6EC1EC15CB1002704A2 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		33F6911F1EB8189300FF3890 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				33FCB6EC1EC15CB1002704A2 /* Event.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33FCB6ED1EC15CB1002704A2 /* Event.swift in Sources */,
 				33F691291EB8275400FF3890 /* CardView.swift in Sources */,
 				33F6910D1EB7FB2400FF3890 /* SecondViewController.swift in Sources */,
 				33F6911D1EB8188400FF3890 /* EventsViewController.swift in Sources */,
@@ -388,6 +392,7 @@
 				33F6911B1EB7FB2400FF3890 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
