@@ -24,7 +24,9 @@ let ROTATION_ANGLE = CGFloat(Double.pi/8)
 class DraggableView: UIView {
     // MARK: Variables
     var delegate: DraggableViewDelegate?
-    
+    let defaultSession = URLSession(configuration: URLSessionConfiguration.default)
+    var dataTask: URLSessionDataTask?
+
     // Coordinate vars
     var xFromCenter = CGFloat()
     var yFromCenter = CGFloat()
@@ -38,7 +40,10 @@ class DraggableView: UIView {
     
     // Overlay view
     var overlayView: OverlayView?
+    var cardImage: UIImage?
     
+    var event: Event!
+
     // MARK: Initializer
     
     /*
@@ -47,7 +52,6 @@ class DraggableView: UIView {
      */
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         // Setup our Draggable View
         setupView()
     }
@@ -62,39 +66,47 @@ class DraggableView: UIView {
      * loadView - loads DraggableView
      * @param {String} event
      */
-    func loadView (event: String) {
+    func loadView(event: Event) {
+        let marginLeft: CGFloat = 5
+        let marginTop: CGFloat = 10
+        let imageWidth: CGFloat = self.frame.size.width - marginLeft * 2
+        let imageHeight: CGFloat = self.frame.size.height - marginTop * 2
+        self.event = event
+        
+        if let url = URL(string: (event.imageUrl)!) {
+            let data = try? Data(contentsOf: url)
+            cardImage = UIImage(data: data!)
+            backgroundImage.frame = CGRect(x: marginLeft, y: marginTop, width: imageWidth, height: imageHeight)
+            // Change image based on event image
+            backgroundImage.image = cardImage
+            backgroundImage.contentMode = UIViewContentMode.scaleAspectFit
+            self.addSubview(backgroundImage)
+        }
+
         // Add an overlay view
         addOverlayView(event: event)
         
         // add the gesture recognizer
         addGestureRecognizer()
     }
-    
+
     /*
      * setupView - sets DraggableView layout
      */
     func setupView() {
-        let marginLeft: CGFloat = 5
-        let marginTop: CGFloat = 10
-        let imageWidth: CGFloat = self.frame.size.width - marginLeft * 2
-        let imageHeight: CGFloat = self.frame.size.height - marginTop * 2
-        
         self.layer.cornerRadius = 10
         self.layer.shadowRadius = 1
         self.layer.shadowOpacity = 0.2
         self.layer.shadowOffset = CGSize(width: 1, height: 1)
         self.backgroundColor = UIColor.white
-        backgroundImage.frame = CGRect(x: marginLeft, y: marginTop, width: imageWidth, height: imageHeight)
-        // Change image based on event image
-//        backgroundImage.image = UIImage(named: "")
-        self.addSubview(backgroundImage)
+
     }
     
     /*
      * addOverlayView - sets and adds the OverlayView
      * @param {String} events
      */
-    func addOverlayView(event: String) {
+    func addOverlayView(event: Event) {
         // Create an overlay view frame
         let overlayViewFrame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         

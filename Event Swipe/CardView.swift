@@ -45,7 +45,7 @@ class CardView: UIView, DraggableViewDelegate {
     var numLoadedCardsCap = 0
     
     // Hold our events
-    var events = [String]()
+    var events: [Event] = []
 
     // MARK: Intitializers
     
@@ -391,6 +391,7 @@ class CardView: UIView, DraggableViewDelegate {
      * param {DraggableView} _card - card
      */
     func cardSwipedRight (_ _card: DraggableView) {
+        EventData.sharedData.savedEvents.append(_card.event)
         processCardSwipe("right")
     }
     
