@@ -306,7 +306,7 @@ class CardView: UIView, DraggableViewDelegate {
         let currentCard = loadedCards[0]
         let event = events[0]
         
-        currentCard.loadCardImage(event: event)
+        currentCard.loadView(event: event)
     }
     
     /*
@@ -391,6 +391,7 @@ class CardView: UIView, DraggableViewDelegate {
      * param {DraggableView} _card - card
      */
     func cardSwipedRight (_ _card: DraggableView) {
+        EventData.sharedData.savedEvents.append(_card.event)
         processCardSwipe("right")
     }
     

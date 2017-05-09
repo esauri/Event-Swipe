@@ -22,7 +22,7 @@ class Event: NSObject, NSCoding {
     enum EVENT_KEY: String {
         case ID = "EVENT_SWIPE/EVENT/ID_KEY",
             NAME = "EVENT_SWIPE/EVENT/NAME_KEY",
-            desc = "EVENT_SWIPE/EVENT/desc_KEY",
+            DESC = "EVENT_SWIPE/EVENT/DESC_KEY",
             URL = "EVENT_SWIPE/EVENT/URL_KEY",
             IMAGE_URL = "EVENT_SWIPE/EVENT/IMAGE_URL_KEY",
             CATEGORY_ID = "EVENT_SWIPE/EVENT/CATEGORY_ID_KEY",
@@ -67,7 +67,7 @@ class Event: NSObject, NSCoding {
         categoryId = aDecoder.decodeObject(forKey: EVENT_KEY.CATEGORY_ID.rawValue) as! Int
         
         // Decode desc
-        desc = aDecoder.decodeObject(forKey: EVENT_KEY.desc.rawValue) as! String
+        desc = aDecoder.decodeObject(forKey: EVENT_KEY.DESC.rawValue) as! String
         
         // Decode subCategoryId
         subCategoryId = aDecoder.decodeObject(forKey: EVENT_KEY.SUB_CATEGORY_ID.rawValue) as! Int
@@ -96,7 +96,7 @@ class Event: NSObject, NSCoding {
         aCoder.encode(categoryId, forKey: EVENT_KEY.CATEGORY_ID.rawValue)
         
         // Encode desc
-        aCoder.encode(desc, forKey: EVENT_KEY.desc.rawValue)
+        aCoder.encode(desc, forKey: EVENT_KEY.DESC.rawValue)
         
         // Encode subCategoryId
         aCoder.encode(subCategoryId, forKey: EVENT_KEY.SUB_CATEGORY_ID.rawValue)

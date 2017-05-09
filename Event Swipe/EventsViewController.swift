@@ -127,7 +127,7 @@ class EventsViewController: UIViewController {
                     ///
                     let id = eventObject["id"] as? Int ?? 0
                     let name = eventObject["name"]?["text"] as? String ?? "Unknown event"
-                    let description = eventObject["description"]?["text"] as? String ?? "\(name) description not available."
+                    let desc = eventObject["description"]?["text"] as? String ?? "\(name) description not available."
                     let url = eventObject["url"] as? String ?? "https://www.eventbrite.com"
                     let imageUrl = eventObject["logo"]?["url"] as? String ?? "http://images.gawker.com/zxpvsmndjrroklechbz4/original.gif"
                     let categoryId = eventObject["category_id"] as? Int ?? 0
@@ -137,10 +137,9 @@ class EventsViewController: UIViewController {
                     let startTime = startTimeObject?["local"] as? String ?? "Start date unknown"
                     let endTime = endTimeObject?["local"] as? String ?? "End date unknown"
                     ///
-                    let event = Event(id: id, name: name, desc: description, url: url, imageUrl: imageUrl, categoryId: categoryId, subCategoryId: subCategoryId, startTime: startTime, endTime: endTime)
+                    let event = Event(id: id, name: name, desc: desc, url: url, imageUrl: imageUrl, categoryId: categoryId, subCategoryId: subCategoryId, startTime: startTime, endTime: endTime)
                     eventResults.append(name)
                     nearbyEvents.append(event)
-//                    print(event.getImageUrl())
                 }
             } else {
                 print("JSON Error")
@@ -149,6 +148,8 @@ class EventsViewController: UIViewController {
             print("Error parsing results \(error.localizedDescription)")
         }
         print("There are \(nearbyEvents.count) events nearby.")
+        // Set nearby events to event data
+        EventData.sharedData.events = nearbyEvents
         // Load cards
         self.view.subviews.forEach({ $0.removeFromSuperview() })
         loadCardView()

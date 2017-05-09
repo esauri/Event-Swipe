@@ -42,6 +42,8 @@ class DraggableView: UIView {
     var overlayView: OverlayView?
     var cardImage: UIImage?
     
+    var event: Event!
+
     // MARK: Initializer
     
     /*
@@ -50,7 +52,6 @@ class DraggableView: UIView {
      */
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         // Setup our Draggable View
         setupView()
     }
@@ -65,40 +66,20 @@ class DraggableView: UIView {
      * loadView - loads DraggableView
      * @param {String} event
      */
-    func loadCardImage (event: Event) {
-//        let eventPictureURL = URL(string: event.imageUrl)
-//        let dataTask = defaultSession.dataTask(with: eventPictureURL!) {
-//            (data, response, error) in
-//            if let e = error {
-//                print("Error downloading event picture: \(e)")
-//            } else {
-//                if (response as? HTTPURLResponse) != nil {
-//                    if let imageData = data {
-//                        self.cardImage = UIImage(data: imageData)
-//                        self.loadView(event: event)
-//                    } else {
-//                        print("Couldn't get image: data is nil")
-//                    }
-//                } else {
-//                    print("Unable to get response")
-//                }
-//            }
-//        }
-//        
-//        dataTask.resume()
-        loadView(event: event)
-    }
-    
     func loadView(event: Event) {
         let marginLeft: CGFloat = 5
         let marginTop: CGFloat = 10
         let imageWidth: CGFloat = self.frame.size.width - marginLeft * 2
         let imageHeight: CGFloat = self.frame.size.height - marginTop * 2
+        self.event = event
         
-        if let image = cardImage {
+        if let url = URL(string: (event.imageUrl)!) {
+            let data = try? Data(contentsOf: url)
+            cardImage = UIImage(data: data!)
             backgroundImage.frame = CGRect(x: marginLeft, y: marginTop, width: imageWidth, height: imageHeight)
             // Change image based on event image
-            backgroundImage.image = image
+            backgroundImage.image = cardImage
+            backgroundImage.contentMode = UIViewContentMode.scaleAspectFit
             self.addSubview(backgroundImage)
         }
 
