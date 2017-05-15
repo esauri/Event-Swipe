@@ -10,16 +10,30 @@ import UIKit
 
 class EventDetailVC: UITableViewController {
     var event: Event?
-    let numOfSections = 6
+    let numOfSections = 7
+    // Is the event already saved
+    var isEventSaved = false
+    
+    // index of current event in our data
+    var indexOfSavedEvent = -1
     
     enum DetailSections: Int {
-        case image = 0, name, description, startTime, endTime, viewOnWeb
+        case image = 0, name, description, startTime, endTime, viewOnWeb, save
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = event?.name
         
+        // Check if current event is saved
+        if let eventExists = EventData.sharedData.savedEvents.first(where: {$0.name == event?.name}) {
+            // Set bool to true
+            isEventSaved = true
+            
+            // Save the index in case we use it
+            indexOfSavedEvent = EventData.sharedData.savedEvents.index(of: eventExists)!
+        }
+
         self.tableView.estimatedRowHeight = 80
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.setNeedsLayout()
@@ -73,6 +87,12 @@ class EventDetailVC: UITableViewController {
             cell.textLabel?.font = UIFont.systemFont(ofSize: 18.0)
             cell.textLabel?.numberOfLines = 1
             cell.textLabel?.textAlignment = .center
+        case DetailSections.save.rawValue:
+            cell.textLabel?.text = (isEventSaved) ? "Remove" : "Save"
+            cell.textLabel?.textColor = view.tintColor
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 18.0)
+            cell.textLabel?.numberOfLines = 1
+            cell.textLabel?.textAlignment = .center
         default:
             cell.textLabel?.text = ""
         }
@@ -82,9 +102,36 @@ class EventDetailVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
+        // If View on Web Tapped
         case DetailSections.viewOnWeb.rawValue:
+            // Get url
             let url = URL(string: (event?.url)!)
+            
+            // Open 
             UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        // If Save / Removed tapped
+        case DetailSections.save.rawValue:
+            if isEventSaved {
+                // Remove event from array
+                EventData.sharedData.savedEvents.remove(at: indexOfSavedEvent)
+                
+                // Event is no longer saved
+                isEventSaved = false
+                
+                // Reset index
+                indexOfSavedEvent = -1
+            } else {
+                // Set index of event to the total length of currently saved events
+                indexOfSavedEvent = EventData.sharedData.savedEvents.count
+                
+                // Append event to saved events array
+                EventData.sharedData.savedEvents.append(event!)
+                
+                // Set event to saved
+                isEventSaved = true
+            }
+            EventData.sharedData.addSavedEventsToDisk()
+            tableView.reloadData()
         default:
             break
         }
