@@ -391,8 +391,17 @@ class CardView: UIView, DraggableViewDelegate {
      * param {DraggableView} _card - card
      */
     func cardSwipedRight (_ _card: DraggableView) {
-        EventData.sharedData.savedEvents.append(_card.event)
-        processCardSwipe("right")
+        // If event already exists no need to add it
+        if EventData.sharedData.savedEvents.first(where: {$0.name == _card.event.name}) != nil {
+            print("duplicates, so not saved")
+            processCardSwipe("right")
+        } else {
+            print("no duplicates, so saved")
+            EventData.sharedData.savedEvents.append(_card.event)
+            processCardSwipe("right")
+            EventData.sharedData.addSavedEventsToDisk()
+        }
+
     }
     
     /*

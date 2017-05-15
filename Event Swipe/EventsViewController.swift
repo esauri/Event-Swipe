@@ -21,7 +21,7 @@ class EventsViewController: UIViewController {
     var nearbyEvents: [Event] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        EventData.sharedData.loadDocumentData()
         // Do any additional setup after loading the view.
         getEventResults(city: TEST_CITY)
     }

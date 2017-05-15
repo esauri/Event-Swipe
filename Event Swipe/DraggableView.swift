@@ -76,10 +76,10 @@ class DraggableView: UIView {
         if let url = URL(string: (event.imageUrl)!) {
             let data = try? Data(contentsOf: url)
             cardImage = UIImage(data: data!)
-            backgroundImage.frame = CGRect(x: marginLeft, y: marginTop, width: imageWidth, height: imageHeight)
+            backgroundImage.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageHeight)
             // Change image based on event image
             backgroundImage.image = cardImage
-            backgroundImage.contentMode = UIViewContentMode.scaleAspectFit
+            backgroundImage.contentMode = UIViewContentMode.scaleAspectFill
             self.addSubview(backgroundImage)
         }
 
