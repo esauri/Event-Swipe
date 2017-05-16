@@ -13,17 +13,20 @@ class EventsViewController: UIViewController {
     let EVENTBRITE_TOKEN = "63H4B3WRGIQUMQMUX563"
     let EVENT_SEARCH_URL = "https://www.eventbriteapi.com/v3/events/search/?token="
     let TEST_CITY = "Rochester"
-    
     /////////////////////// Data Fetching
+    var city: String!
     let defaultSession = URLSession(configuration: URLSessionConfiguration.default)
     var dataTask: URLSessionDataTask?
     var eventResults = [String]() // empty array of strings
     var nearbyEvents: [Event] = []
+    @IBOutlet weak var loadingLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         EventData.sharedData.loadDocumentData()
         // Do any additional setup after loading the view.
-        getEventResults(city: TEST_CITY)
+        loadingLabel.text = "Loading events near \(city!)..."
+        getEventResults(city: city)
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,6 +77,7 @@ class EventsViewController: UIViewController {
         let urlString = "\(EVENT_SEARCH_URL)\(EVENTBRITE_TOKEN)&location.address=\(city)"
         guard let url = URL(string: urlString) else {
             print("something is wrong with the url")
+            loadingLabel.text = "We couldn't find any events near \(city)! Please choose another city."
             return
         }
         

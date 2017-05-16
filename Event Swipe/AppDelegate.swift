@@ -12,10 +12,13 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    let themeColor = UIColor(red:0.91, green:0.30, blue:0.24, alpha:1.0)
+    let darkThemeColor = UIColor(red:0.15, green:0.15, blue:0.15, alpha:1.0)
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        window?.tintColor = themeColor
+        window?.backgroundColor = darkThemeColor
         return true
     }
 

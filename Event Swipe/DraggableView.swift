@@ -67,9 +67,8 @@ class DraggableView: UIView {
      * @param {String} event
      */
     func loadView(event: Event) {
-        let marginLeft: CGFloat = 5
         let marginTop: CGFloat = 10
-        let imageWidth: CGFloat = self.frame.size.width - marginLeft * 2
+        let imageWidth: CGFloat = self.frame.size.width
         let imageHeight: CGFloat = self.frame.size.height - marginTop * 2
         self.event = event
         
@@ -79,7 +78,7 @@ class DraggableView: UIView {
             backgroundImage.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageHeight)
             // Change image based on event image
             backgroundImage.image = cardImage
-            backgroundImage.contentMode = UIViewContentMode.scaleAspectFill
+            backgroundImage.contentMode = UIViewContentMode.scaleAspectFit
             self.addSubview(backgroundImage)
         }
 

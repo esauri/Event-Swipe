@@ -11,6 +11,10 @@ import UIKit
 class EventDetailVC: UITableViewController {
     var event: Event?
     let numOfSections = 7
+    let themeColor = UIColor(red:0.91, green:0.30, blue:0.24, alpha:1.0)
+    let darkThemeColor = UIColor(red:0.15, green:0.15, blue:0.15, alpha:1.0)
+    let yellowThemeColor = UIColor(red:1.00, green:0.80, blue:0.32, alpha:1.0)
+
     // Is the event already saved
     var isEventSaved = false
     
@@ -24,6 +28,9 @@ class EventDetailVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = event?.name
+        
+        self.view.backgroundColor = themeColor
+        self.navigationController?.navigationBar.barTintColor = yellowThemeColor
         
         // Check if current event is saved
         if let eventExists = EventData.sharedData.savedEvents.first(where: {$0.name == event?.name}) {
@@ -83,13 +90,13 @@ class EventDetailVC: UITableViewController {
             cell.textLabel?.text = event?.endTime
         case DetailSections.viewOnWeb.rawValue:
             cell.textLabel?.text = "View on Web"
-            cell.textLabel?.textColor = view.tintColor
+            cell.textLabel?.textColor = yellowThemeColor
             cell.textLabel?.font = UIFont.systemFont(ofSize: 18.0)
             cell.textLabel?.numberOfLines = 1
             cell.textLabel?.textAlignment = .center
         case DetailSections.save.rawValue:
             cell.textLabel?.text = (isEventSaved) ? "Remove" : "Save"
-            cell.textLabel?.textColor = view.tintColor
+            cell.textLabel?.textColor = yellowThemeColor
             cell.textLabel?.font = UIFont.systemFont(ofSize: 18.0)
             cell.textLabel?.numberOfLines = 1
             cell.textLabel?.textAlignment = .center

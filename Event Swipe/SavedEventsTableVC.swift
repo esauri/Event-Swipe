@@ -9,13 +9,17 @@
 import UIKit
 
 class SavedEventsTableVC: UITableViewController {
-
+    let themeColor = UIColor(red:0.91, green:0.30, blue:0.24, alpha:1.0)
+    let darkThemeColor = UIColor(red:0.15, green:0.15, blue:0.15, alpha:1.0)
+    let yellowThemeColor = UIColor(red:1.00, green:0.80, blue:0.32, alpha:1.0)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        self.view.backgroundColor = themeColor
+        self.navigationController?.navigationBar.barTintColor = yellowThemeColor
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
@@ -52,8 +56,7 @@ class SavedEventsTableVC: UITableViewController {
         cell.textLabel?.text = event.name
         return cell
     }
-
-
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

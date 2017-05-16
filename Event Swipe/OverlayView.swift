@@ -152,20 +152,14 @@ class OverlayView: UIView {
         switch _mode {
         // If left mode
         case .Left:
-//            setMyImageView(face!)
+            setMyImageView("noButton-01.png")
             break
         // If left mode
         case .Right:
-//            setMyImageView(face!)
+            setMyImageView("yesButton-01.png")
             break
         // Otherwise
         case .None:
-            // Set face to default
-//            let face = trumpFaces["none"]
-//            let response = ""
-//            
-//            setResponseLabelText(response)
-//            setMyImageView(face!)
             break
         }
     }

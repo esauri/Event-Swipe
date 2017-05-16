@@ -9,5 +9,6 @@
 import UIKit
 
 class OnboardingCategoryCell: UICollectionViewCell {
-    
+    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
 }
