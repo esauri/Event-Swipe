@@ -12,12 +12,25 @@ class EventData {
     let USER_FILE_NAME = "user.archive"
     let CATEGORIES_FILE_NAME = "categories.archive"
     let SAVED_EVENTS_FILE_NAME = "savedEvents.archive"
+    let CITY_KEY = "EventSwipe/EventData/City"
+    let EVENTS_FILE_NAME = "events.archive"
     static let sharedData = EventData()
     var events = [Event]()
     var savedEvents = [Event]()
     var categories = [Category]()
+    var city: String = "Rochester" {
+        didSet {
+            let defaults = UserDefaults.standard
+            defaults.set(city, forKey: CITY_KEY)
+        }
+    }
     
     // MARK: READ/WRITE DISK
+    func addEventsToDisk() {
+        let pathToFile = FileManager.filePathInDocumentsDirectory(fileName: EVENTS_FILE_NAME)
+        _ = NSKeyedArchiver.archiveRootObject(EventData.sharedData.events, toFile: pathToFile.path)
+    }
+    
     func addSavedEventsToDisk() {
         let pathToFile = FileManager.filePathInDocumentsDirectory(fileName: SAVED_EVENTS_FILE_NAME)
         _ = NSKeyedArchiver.archiveRootObject(EventData.sharedData.savedEvents, toFile: pathToFile.path)
@@ -26,6 +39,13 @@ class EventData {
     func addCategoriesToDisk() {
         let pathToFile = FileManager.filePathInDocumentsDirectory(fileName: CATEGORIES_FILE_NAME)
         _ = NSKeyedArchiver.archiveRootObject(EventData.sharedData.categories, toFile: pathToFile.path)
+    }
+
+    func loadEventsFromDisk() {
+        let pathToFile = FileManager.filePathInDocumentsDirectory(fileName: EVENTS_FILE_NAME)
+        
+        // Reload EventData.sharedData.events array from disk
+        EventData.sharedData.events = NSKeyedUnarchiver.unarchiveObject(withFile: pathToFile.path) as! [Event]
     }
     
     func loadSavedEventsFromDisk() {
@@ -44,8 +64,15 @@ class EventData {
     
     func loadDocumentData() {
         // Paths to file
+        let eventsPathToFile = FileManager.filePathInDocumentsDirectory(fileName: EVENTS_FILE_NAME)
         let categoriesPathToFile = FileManager.filePathInDocumentsDirectory(fileName: CATEGORIES_FILE_NAME)
         let savedEventsPathToFile = FileManager.filePathInDocumentsDirectory(fileName: SAVED_EVENTS_FILE_NAME)
+        
+        if FileManager.default.fileExists(atPath: eventsPathToFile.path) {
+            loadEventsFromDisk()
+        } else {
+            addEventsToDisk()
+        }
         
         if FileManager.default.fileExists(atPath: categoriesPathToFile.path) {
             // Load categories

@@ -164,7 +164,7 @@ class CardView: UIView, DraggableViewDelegate {
         let btnY = CARD_MARGIN_TOP + BAR_HEIGHT_LARGE + CARD_HEIGHT + 10
         
         dismissButton.frame = CGRect(x: btnX, y: btnY, width: BAR_HEIGHT, height: BAR_HEIGHT)
-        dismissButton.setImage(UIImage(named: "dismissButton"), for: .normal)
+        dismissButton.setImage(UIImage(named: "error.png"), for: .normal)
         dismissButton.addTarget(self, action: #selector(CardView.swipeLeft), for: .touchUpInside)
         addSubview(dismissButton)
     }
@@ -177,7 +177,7 @@ class CardView: UIView, DraggableViewDelegate {
         let btnY = CARD_MARGIN_TOP + BAR_HEIGHT_LARGE + CARD_HEIGHT + 10
         
         saveButton.frame = CGRect(x: btnX, y: btnY, width: BAR_HEIGHT, height: BAR_HEIGHT)
-        saveButton.setImage(UIImage(named: "saveButton"), for: .normal)
+        saveButton.setImage(UIImage(named: "success.png"), for: .normal)
         saveButton.addTarget(self, action: #selector(CardView.swipeRight), for: .touchUpInside)
         addSubview(saveButton)
     }

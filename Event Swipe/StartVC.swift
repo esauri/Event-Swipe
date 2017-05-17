@@ -20,8 +20,13 @@ class StartVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
-
         // Do any additional setup after loading the view.
+        EventData.sharedData.loadDocumentData()
+        city = EventData.sharedData.city
+        textField.text = city
+        if (EventData.sharedData.events.count > 0) && (city.isEmpty == false) {
+            performSegue(withIdentifier: "mainSegue", sender: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,7 +72,6 @@ class StartVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let eventVC = segue.destination.childViewControllers[0] as! EventsViewController
-        eventVC.city = city
+        EventData.sharedData.city = city
     }
 }

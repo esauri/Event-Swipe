@@ -11,7 +11,7 @@ import UIKit
 class SavedEventsTableVC: UITableViewController {
     let themeColor = UIColor(red:0.91, green:0.30, blue:0.24, alpha:1.0)
     let darkThemeColor = UIColor(red:0.15, green:0.15, blue:0.15, alpha:1.0)
-    let yellowThemeColor = UIColor(red:1.00, green:0.80, blue:0.32, alpha:1.0)
+    let orangeThemeColor = UIColor(red:0.77, green:0.30, blue:0.24, alpha:1.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,9 +19,9 @@ class SavedEventsTableVC: UITableViewController {
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         self.view.backgroundColor = themeColor
-        self.navigationController?.navigationBar.barTintColor = yellowThemeColor
+        self.navigationController?.navigationBar.barTintColor = orangeThemeColor
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+         self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,6 +54,7 @@ class SavedEventsTableVC: UITableViewController {
         // Configure the cell...
         let event = EventData.sharedData.savedEvents[indexPath.row]
         cell.textLabel?.text = event.name
+        cell.textLabel?.textColor = UIColor.white
         return cell
     }
     
@@ -65,18 +66,26 @@ class SavedEventsTableVC: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            EventData.sharedData.savedEvents.remove(at: indexPath.row)
+            EventData.sharedData.addSavedEventsToDisk()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
-
+ 
+    // Override to support rearranging the table view.
+    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        let eventToMove = EventData.sharedData.savedEvents.remove(at: fromIndexPath.row)
+        EventData.sharedData.savedEvents.insert(eventToMove, at: to.row)
+        EventData.sharedData.addSavedEventsToDisk()
+    }
+    
     /*
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {

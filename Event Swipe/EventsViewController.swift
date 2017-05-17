@@ -9,12 +9,8 @@
 import UIKit
 
 class EventsViewController: UIViewController {
-    /////////////////////// Eventbrite
     let EVENTBRITE_TOKEN = "63H4B3WRGIQUMQMUX563"
     let EVENT_SEARCH_URL = "https://www.eventbriteapi.com/v3/events/search/?token="
-    let TEST_CITY = "Rochester"
-    /////////////////////// Data Fetching
-    var city: String!
     let defaultSession = URLSession(configuration: URLSessionConfiguration.default)
     var dataTask: URLSessionDataTask?
     var eventResults = [String]() // empty array of strings
@@ -25,24 +21,17 @@ class EventsViewController: UIViewController {
         super.viewDidLoad()
         EventData.sharedData.loadDocumentData()
         // Do any additional setup after loading the view.
-        loadingLabel.text = "Loading events near \(city!)..."
-        getEventResults(city: city)
+        loadingLabel.text = "Loading events near \(EventData.sharedData.city)..."
+        
+        if EventData.sharedData.events.count == 0 {
+            getEventResults(city: EventData.sharedData.city)
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     // MARK: Card View
     func loadCardView() {
@@ -151,11 +140,16 @@ class EventsViewController: UIViewController {
         } catch {
             print("Error parsing results \(error.localizedDescription)")
         }
-        print("There are \(nearbyEvents.count) events nearby.")
         // Set nearby events to event data
         EventData.sharedData.events = nearbyEvents
         // Load cards
         self.view.subviews.forEach({ $0.removeFromSuperview() })
         loadCardView()
+    }
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        EventData.sharedData.events = [Event]()
+        EventData.sharedData.city = ""
     }
 }

@@ -10,11 +10,12 @@ import UIKit
 
 class EventDetailVC: UITableViewController {
     var event: Event?
-    let numOfSections = 7
+    let numOfSections = 8
     let themeColor = UIColor(red:0.91, green:0.30, blue:0.24, alpha:1.0)
     let darkThemeColor = UIColor(red:0.15, green:0.15, blue:0.15, alpha:1.0)
     let yellowThemeColor = UIColor(red:1.00, green:0.80, blue:0.32, alpha:1.0)
-
+    let orangeThemeColor = UIColor(red:0.77, green:0.30, blue:0.24, alpha:1.0)
+    
     // Is the event already saved
     var isEventSaved = false
     
@@ -22,7 +23,7 @@ class EventDetailVC: UITableViewController {
     var indexOfSavedEvent = -1
     
     enum DetailSections: Int {
-        case image = 0, name, description, startTime, endTime, viewOnWeb, save
+        case image = 0, name, description, startTime, endTime, viewOnWeb, share, save
     }
 
     override func viewDidLoad() {
@@ -30,7 +31,7 @@ class EventDetailVC: UITableViewController {
         title = event?.name
         
         self.view.backgroundColor = themeColor
-        self.navigationController?.navigationBar.barTintColor = yellowThemeColor
+        self.navigationController?.navigationBar.barTintColor = orangeThemeColor
         
         // Check if current event is saved
         if let eventExists = EventData.sharedData.savedEvents.first(where: {$0.name == event?.name}) {
@@ -94,6 +95,12 @@ class EventDetailVC: UITableViewController {
             cell.textLabel?.font = UIFont.systemFont(ofSize: 18.0)
             cell.textLabel?.numberOfLines = 1
             cell.textLabel?.textAlignment = .center
+        case DetailSections.share.rawValue:
+            cell.textLabel?.text = "Share"
+            cell.textLabel?.textColor = yellowThemeColor
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 18.0)
+            cell.textLabel?.numberOfLines = 1
+            cell.textLabel?.textAlignment = .center
         case DetailSections.save.rawValue:
             cell.textLabel?.text = (isEventSaved) ? "Remove" : "Save"
             cell.textLabel?.textColor = yellowThemeColor
@@ -116,6 +123,9 @@ class EventDetailVC: UITableViewController {
             
             // Open 
             UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        // If share
+        case DetailSections.share.rawValue:
+            share()
         // If Save / Removed tapped
         case DetailSections.save.rawValue:
             if isEventSaved {
@@ -150,6 +160,27 @@ class EventDetailVC: UITableViewController {
         }
         
         return tableView.rowHeight
+    }
+
+    // MARK: Share
+    func share() {
+        // Text
+        let name = event?.name
+        let textToShare = "Check out \(name ?? "this event"), cool event!"
+        
+        // Website
+        let website = URL(string: (event?.url)!)
+        
+        // Image
+        let imageURL = URL(string: (event?.imageUrl)!)
+        let imageData = try? Data(contentsOf: imageURL!)
+        let image = UIImage(data: imageData!)
+        
+        let objectsToShare: [AnyObject] = [textToShare as AnyObject, website! as AnyObject, image!]
+        
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        activityVC.excludedActivityTypes = [UIActivityType.print]
+        self.present(activityVC, animated: true, completion: nil)
     }
 
     /*
@@ -196,5 +227,4 @@ class EventDetailVC: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }
